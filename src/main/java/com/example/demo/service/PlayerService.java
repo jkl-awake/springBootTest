@@ -1,13 +1,13 @@
 package com.example.demo.service;
 
-import com.example.demo.model.Player;
+import com.example.demo.model.Players;
 import com.example.demo.repository.PlayerRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
+import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -19,11 +19,11 @@ public class PlayerService {
     /**
      * 创建玩家
      */
-    public Player createPlayer(String userName) {
-        Player player = new Player();
+    public Players createPlayer(String userName) {
+        Players player = new Players();
         player.setUserName(userName);
-        player.setCreatedAt(LocalDate.now());
-        player.setUpdatedAt(LocalDate.now());
+        player.setCreatedAt(OffsetDateTime.now());
+        player.setUpdatedAt(OffsetDateTime.now());
         player.setIsDeleted(false);
         return repository.save(player);
     }
@@ -31,8 +31,8 @@ public class PlayerService {
     /**
      * 根据ID查询玩家
      */
-    public Optional<Player> getPlayerById(Long id) {
-        Optional<Player> player = repository.findById(id);
+    public Optional<Players> getPlayerById(Long id) {
+        Optional<Players> player = repository.findById(id);
         // 如果被删除，返回空
         if (player.isPresent() && player.get().getIsDeleted()) {
             return Optional.empty();
@@ -43,18 +43,18 @@ public class PlayerService {
     /**
      * 根据用户名查询玩家
      */
-    public Optional<Player> getPlayerByUserName(String userName) {
+    public Optional<Players> getPlayerByUserName(String userName) {
         return repository.findByUserNameAndIsDeletedFalse(userName);
     }
 
     /**
      * 查询所有未删除的玩家
      */
-    public List<Player> getAllPlayers() {
+    public List<Players> getAllPlayers() {
         return repository.findAllByIsDeletedFalse();
     }
 
-    public Page<Player> getPlayersPage(int page, int size) {
+    public Page<Players> getPlayersPage(int page, int size) {
         int safePage = Math.max(0, page - 1);
         int safeSize = Math.max(1, size);
         PageRequest pageRequest = PageRequest.of(safePage, safeSize);
@@ -64,12 +64,12 @@ public class PlayerService {
     /**
      * 更新玩家信息
      */
-    public Player updatePlayer(Long id, String userName) {
-        Optional<Player> playerOpt = getPlayerById(id);
+    public Players updatePlayer(Long id, String userName) {
+        Optional<Players> playerOpt = getPlayerById(id);
         if (playerOpt.isPresent()) {
-            Player player = playerOpt.get();
+            Players player = playerOpt.get();
             player.setUserName(userName);
-            player.setUpdatedAt(LocalDate.now());
+            player.setUpdatedAt(OffsetDateTime.now());
             return repository.save(player);
         }
         throw new RuntimeException("Player not found with id: " + id);
@@ -79,11 +79,11 @@ public class PlayerService {
      * 软删除玩家（标记为已删除，不真正删除）
      */
     public void deletePlayer(Long id) {
-        Optional<Player> playerOpt = repository.findById(id);
+        Optional<Players> playerOpt = repository.findById(id);
         if (playerOpt.isPresent()) {
-            Player player = playerOpt.get();
+            Players player = playerOpt.get();
             player.setIsDeleted(true);
-            player.setUpdatedAt(LocalDate.now());
+            player.setUpdatedAt(OffsetDateTime.now());
             repository.save(player);
         } else {
             throw new RuntimeException("Player not found with id: " + id);

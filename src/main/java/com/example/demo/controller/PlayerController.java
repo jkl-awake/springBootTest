@@ -4,7 +4,7 @@ import com.example.demo.dto.ApiResponse;
 import com.example.demo.dto.PlayerCreateRequest;
 import com.example.demo.dto.PlayerResponse;
 import com.example.demo.dto.PlayerUpdateRequest;
-import com.example.demo.model.Player;
+import com.example.demo.model.Players;
 import com.example.demo.service.PlayerService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -28,7 +28,7 @@ public class PlayerController {
     @PostMapping
     @Operation(summary = "Create player")
     public ResponseEntity<ApiResponse<PlayerResponse>> create(@Valid @RequestBody PlayerCreateRequest req) {
-        Player created = playerService.createPlayer(req.getUserName());
+        Players created = playerService.createPlayer(req.getUserName());
         return ResponseEntity.created(URI.create("/api/players/" + created.getId()))
                 .body(ApiResponse.success(toResponse(created)));
     }
@@ -45,7 +45,7 @@ public class PlayerController {
     @GetMapping("/{id}")
     @Operation(summary = "Get player by id")
     public ApiResponse<PlayerResponse> get(@PathVariable Long id) {
-        Player player = playerService.getPlayerById(id)
+        Players player = playerService.getPlayerById(id)
                 .orElseThrow(() -> new RuntimeException("Player not found with id: " + id));
         return ApiResponse.success(toResponse(player));
     }
@@ -53,7 +53,7 @@ public class PlayerController {
     @GetMapping("/username/{userName}")
     @Operation(summary = "Get player by username")
     public ApiResponse<PlayerResponse> getByUserName(@PathVariable String userName) {
-        Player player = playerService.getPlayerByUserName(userName)
+        Players player = playerService.getPlayerByUserName(userName)
                 .orElseThrow(() -> new RuntimeException("Player not found with username: " + userName));
         return ApiResponse.success(toResponse(player));
     }
@@ -61,7 +61,7 @@ public class PlayerController {
     @PutMapping("/{id}")
     @Operation(summary = "Update player")
     public ApiResponse<PlayerResponse> update(@PathVariable Long id, @Valid @RequestBody PlayerUpdateRequest req) {
-        Player updated = playerService.updatePlayer(id, req.getUserName());
+        Players updated = playerService.updatePlayer(id, req.getUserName());
         return ApiResponse.success(toResponse(updated));
     }
 
@@ -87,7 +87,7 @@ public class PlayerController {
         return ApiResponse.success(data);
     }
 
-    private PlayerResponse toResponse(Player player) {
+    private PlayerResponse toResponse(Players player) {
         return new PlayerResponse(
                 player.getId(),
                 player.getUserName(),
