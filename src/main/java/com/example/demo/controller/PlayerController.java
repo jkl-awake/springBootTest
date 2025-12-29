@@ -1,5 +1,6 @@
 package com.example.demo.controller;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.example.demo.dto.ApiResponse;
 import com.example.demo.dto.PlayerCreateRequest;
 import com.example.demo.dto.PlayerResponse;
@@ -10,7 +11,6 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -83,7 +83,9 @@ public class PlayerController {
     @Operation(summary = "Page through players")
     public ApiResponse<Page<PlayerResponse>> page(@RequestParam(defaultValue = "1") int page,
                                      @RequestParam(defaultValue = "10") int size) {
-        Page<PlayerResponse> data = playerService.getPlayersPage(page, size).map(this::toResponse);
+        Page<Players> playersPage = playerService.getPlayersPage(page, size);
+        Page<PlayerResponse> data = new Page<>(playersPage.getCurrent(), playersPage.getSize(), playersPage.getTotal());
+        data.setRecords(playersPage.getRecords().stream().map(this::toResponse).collect(Collectors.toList()));
         return ApiResponse.success(data);
     }
 

@@ -1,10 +1,10 @@
 package com.example.demo.service;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.example.demo.mapper.PlayerMapper;
 import com.example.demo.model.Players;
-import com.example.demo.repository.PlayerRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.time.OffsetDateTime;
@@ -14,7 +14,7 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 public class PlayerService {
-    private final PlayerRepository repository;
+    private final PlayerMapper playerMapper;
 
     /**
      * 创建玩家
@@ -22,43 +22,52 @@ public class PlayerService {
     public Players createPlayer(String userName) {
         Players player = new Players();
         player.setUserName(userName);
-        player.setCreatedAt(OffsetDateTime.now());
-        player.setUpdatedAt(OffsetDateTime.now());
-        player.setIsDeleted(false);
-        return repository.save(player);
+        // createdAt, updatedAt, isDeleted 会由 MyBatis-Plus 自动填充
+        playerMapper.insert(player);
+        return player;
     }
 
     /**
      * 根据ID查询玩家
      */
     public Optional<Players> getPlayerById(Long id) {
-        Optional<Players> player = repository.findById(id);
-        // 如果被删除，返回空
-        if (player.isPresent() && player.get().getIsDeleted()) {
+        Players player = playerMapper.selectById(id);
+        // 如果被删除或不存在，返回空
+        if (player == null || Boolean.TRUE.equals(player.getIsDeleted())) {
             return Optional.empty();
         }
-        return player;
+        return Optional.of(player);
     }
 
     /**
      * 根据用户名查询玩家
      */
     public Optional<Players> getPlayerByUserName(String userName) {
-        return repository.findByUserNameAndIsDeletedFalse(userName);
+        LambdaQueryWrapper<Players> wrapper = new LambdaQueryWrapper<>();
+        wrapper.eq(Players::getUserName, userName)
+               .eq(Players::getIsDeleted, false);
+        Players player = playerMapper.selectOne(wrapper);
+        return Optional.ofNullable(player);
     }
 
     /**
      * 查询所有未删除的玩家
      */
     public List<Players> getAllPlayers() {
-        return repository.findAllByIsDeletedFalse();
+        LambdaQueryWrapper<Players> wrapper = new LambdaQueryWrapper<>();
+        wrapper.eq(Players::getIsDeleted, false);
+        return playerMapper.selectList(wrapper);
     }
 
     public Page<Players> getPlayersPage(int page, int size) {
-        int safePage = Math.max(0, page - 1);
+        int safePage = Math.max(1, page);
         int safeSize = Math.max(1, size);
-        PageRequest pageRequest = PageRequest.of(safePage, safeSize);
-        return repository.findAllByIsDeletedFalse(pageRequest);
+        
+        Page<Players> pageParam = new Page<>(safePage, safeSize);
+        LambdaQueryWrapper<Players> wrapper = new LambdaQueryWrapper<>();
+        wrapper.eq(Players::getIsDeleted, false);
+        
+        return playerMapper.selectPage(pageParam, wrapper);
     }
 
     /**
@@ -69,8 +78,9 @@ public class PlayerService {
         if (playerOpt.isPresent()) {
             Players player = playerOpt.get();
             player.setUserName(userName);
-            player.setUpdatedAt(OffsetDateTime.now());
-            return repository.save(player);
+            // updatedAt 会由 MyBatis-Plus 自动填充
+            playerMapper.updateById(player);
+            return player;
         }
         throw new RuntimeException("Player not found with id: " + id);
     }
@@ -79,12 +89,11 @@ public class PlayerService {
      * 软删除玩家（标记为已删除，不真正删除）
      */
     public void deletePlayer(Long id) {
-        Optional<Players> playerOpt = repository.findById(id);
-        if (playerOpt.isPresent()) {
-            Players player = playerOpt.get();
+        Players player = playerMapper.selectById(id);
+        if (player != null) {
             player.setIsDeleted(true);
             player.setUpdatedAt(OffsetDateTime.now());
-            repository.save(player);
+            playerMapper.updateById(player);
         } else {
             throw new RuntimeException("Player not found with id: " + id);
         }
@@ -94,6 +103,6 @@ public class PlayerService {
      * 真正删除玩家（从数据库中删除）
      */
     public void deletePlayerPermanently(Long id) {
-        repository.deleteById(id);
+        playerMapper.deleteById(id);
     }
 }

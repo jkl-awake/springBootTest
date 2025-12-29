@@ -1,10 +1,8 @@
 package com.example.demo.enums;
 
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 
 @Getter
-@RequiredArgsConstructor
 public enum PlatformEnum {
     PC(1, "PC"),
     XBOX(2, "Xbox"),
@@ -14,4 +12,9 @@ public enum PlatformEnum {
 
     private final int value;
     private final String displayName;
+
+    PlatformEnum(int value, String displayName) {
+        this.value = value;
+        this.displayName = displayName;
+    }
 }

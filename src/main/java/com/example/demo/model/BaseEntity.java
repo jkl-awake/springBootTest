@@ -2,42 +2,25 @@ package com.example.demo.model;
 
 import java.time.OffsetDateTime;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.MappedSuperclass;
-import jakarta.persistence.PrePersist;
-import jakarta.persistence.PreUpdate;
+import com.baomidou.mybatisplus.annotation.FieldFill;
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableLogic;
 import lombok.Data;
 
 @Data
-@MappedSuperclass
 public class BaseEntity {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
+    @TableId(type = IdType.AUTO)
     private Long id;
 
-    @Column(name = "created_at")
+    @TableField(fill = FieldFill.INSERT)
     private OffsetDateTime createdAt;
 
-    @Column(name = "updated_at")
+    @TableField(fill = FieldFill.INSERT_UPDATE)
     private OffsetDateTime updatedAt;
 
-    @Column(name = "is_deleted")
-    private Boolean isDeleted = false;
-
-    @PrePersist
-    protected void onCreate() {
-        createdAt = OffsetDateTime.now();
-        updatedAt = OffsetDateTime.now();
-        isDeleted = false;
-    }
-
-    @PreUpdate
-    protected void onUpdate() {
-        updatedAt = OffsetDateTime.now();
-    }
+    @TableLogic
+    private Boolean isDeleted;
 }
