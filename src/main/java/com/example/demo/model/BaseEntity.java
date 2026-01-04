@@ -15,12 +15,13 @@ public class BaseEntity {
     @TableId(type = IdType.AUTO)
     private Long id;
 
-    @TableField(fill = FieldFill.INSERT)
+    @TableField(value = "created_at",fill = FieldFill.INSERT)
     private OffsetDateTime createdAt;
 
-    @TableField(fill = FieldFill.INSERT_UPDATE)
+    @TableField(value = "updated_at",fill = FieldFill.INSERT_UPDATE)
     private OffsetDateTime updatedAt;
 
-    @TableLogic
+    @TableLogic(value = "false", delval = "true")
+    @TableField("is_deleted")
     private Boolean isDeleted;
 }
