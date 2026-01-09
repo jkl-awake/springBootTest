@@ -1,7 +1,7 @@
 package com.example.demo.controller;
 
-import com.example.demo.dto.ApiResponse;
-import com.example.demo.dto.LoginRequest;
+import com.example.demo.response.ApiResponse;
+import com.example.demo.request.LoginRequest;
 import com.example.demo.model.Players;
 import com.example.demo.security.JwtProperties;
 import com.example.demo.security.JwtService;

@@ -1,10 +1,10 @@
 package com.example.demo.controller;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.example.demo.dto.ApiResponse;
-import com.example.demo.dto.PlayerCreateRequest;
-import com.example.demo.dto.PlayerResponse;
-import com.example.demo.dto.PlayerUpdateRequest;
+import com.example.demo.response.ApiResponse;
+import com.example.demo.request.PlayerCreateRequest;
+import com.example.demo.response.PlayerResponse;
+import com.example.demo.request.PlayerUpdateRequest;
 import com.example.demo.model.Players;
 import com.example.demo.service.PlayerService;
 import io.swagger.v3.oas.annotations.Operation;

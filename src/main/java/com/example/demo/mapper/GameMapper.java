@@ -1,7 +1,11 @@
 package com.example.demo.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.example.demo.dto.GameWithPlayingExperienceDto;
 import com.example.demo.model.Games;
+
+import java.util.List;
+
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 
@@ -13,9 +17,9 @@ public interface GameMapper extends BaseMapper<Games> {
      * get game with its playing experience
      * */
     @Select("""
-        select g.* from game g 
+        select g.id as gameId, g.game_name as gameName, gpe.id as playingExperienceId, gpe.context as playingExperienceContext from games g 
            left join game_playing_experience gpe on g.id = gpe.game_id
-           where g.is_deleted = 0
+           where g.id = #{gameId} and g.is_deleted = false and gpe.is_deleted = false
 """)
-    Games getGameWithPlayingExperience();
+    List<GameWithPlayingExperienceDto> getGameWithPlayingExperiences(Long gameId);
 }
