@@ -59,8 +59,7 @@ public class NotesServiceImpl implements INotesService {
             if (notes == null) {
                 return ApiResponse.error("note not found");
             }
-            notes.setIsDeleted(true);
-            notesMapper.updateById(notes);
+            notesMapper.deleteById(notes);
             log.info("delete note success");
             return ApiResponse.success(1);
         } catch (Exception e) {
