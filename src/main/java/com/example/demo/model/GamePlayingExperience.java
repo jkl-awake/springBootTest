@@ -15,8 +15,4 @@ public class GamePlayingExperience extends BaseEntity {
     // game表的id
     private Long gameId;
     private String context;
-
-    public void DeletePlayingExperience() {
-        this.setIsDeleted(true);
-    }
 }

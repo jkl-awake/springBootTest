@@ -73,8 +73,8 @@ public class GameServiceImpl implements IGameService {
             log.warn("Game not found or deleted, gameId={}", gameId);
             return 0;
         }
-        game.setIsDeleted(true);
-        return gameMapper.updateById(game);
+        
+        return gameMapper.deleteById(game);
     }
 
     // 获取游戏与游玩体验
@@ -132,7 +132,7 @@ public class GameServiceImpl implements IGameService {
             log.warn("Experience not found or deleted, experienceId={}", experienceId);
             return 0;
         }
-        experience.DeletePlayingExperience();
-        return gamePlayingExperienceMapper.updateById(experience);
+
+        return gamePlayingExperienceMapper.deleteById(experience);
     }
 }

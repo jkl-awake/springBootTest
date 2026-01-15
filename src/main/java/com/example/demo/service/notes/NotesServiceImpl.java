@@ -1,7 +1,5 @@
 package com.example.demo.service.notes;
 
-import java.beans.Transient;
-
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
