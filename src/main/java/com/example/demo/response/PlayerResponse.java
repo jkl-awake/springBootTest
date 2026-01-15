@@ -4,7 +4,8 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import java.time.OffsetDateTime;
+
+import java.time.LocalDateTime;
 
 @Data
 @NoArgsConstructor
@@ -14,9 +15,9 @@ public class PlayerResponse {
     private String userName;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
-    private OffsetDateTime createdAt;
+    private LocalDateTime createdAt;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
-    private OffsetDateTime updatedAt;
+    private LocalDateTime updatedAt;
     private Boolean isDeleted;
 }

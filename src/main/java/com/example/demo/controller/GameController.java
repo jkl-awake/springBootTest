@@ -6,9 +6,10 @@ import com.example.demo.request.PlayingExperienceOperateRequest;
 import com.example.demo.response.ApiResponse;
 import com.example.demo.request.GameCreateRequest;
 import com.example.demo.response.GameWithPlayingExperienceResponse;
+import com.example.demo.service.game.IGameService;
 import com.example.demo.enums.PlatformEnum;
 import com.example.demo.model.Games;
-import com.example.demo.service.GameService;
+
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -18,7 +19,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/game")
 @RequiredArgsConstructor
 public class GameController {
-    private final GameService gameService;
+    private final IGameService gameService;
 
     @PostMapping("/GetGames")
     @Operation(summary = "查询游戏分页列表")

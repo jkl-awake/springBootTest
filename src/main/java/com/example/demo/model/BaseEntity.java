@@ -1,5 +1,6 @@
 package com.example.demo.model;
 
+import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
 
 import com.baomidou.mybatisplus.annotation.FieldFill;
@@ -16,10 +17,10 @@ public class BaseEntity {
     private Long id;
 
     @TableField(value = "created_at",fill = FieldFill.INSERT)
-    private OffsetDateTime createdAt;
+    private LocalDateTime createdAt;
 
     @TableField(value = "updated_at",fill = FieldFill.INSERT_UPDATE)
-    private OffsetDateTime updatedAt;
+    private LocalDateTime updatedAt;
 
     @TableLogic(value = "false", delval = "true")
     @TableField("is_deleted")

@@ -7,6 +7,7 @@ import com.example.demo.model.Players;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -92,7 +93,7 @@ public class PlayerService {
         Players player = playerMapper.selectById(id);
         if (player != null) {
             player.setIsDeleted(true);
-            player.setUpdatedAt(OffsetDateTime.now());
+            player.setUpdatedAt(LocalDateTime.now());
             playerMapper.updateById(player);
         } else {
             throw new RuntimeException("Player not found with id: " + id);

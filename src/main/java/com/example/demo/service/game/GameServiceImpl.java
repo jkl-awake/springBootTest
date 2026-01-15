@@ -1,5 +1,5 @@
 // java
-package com.example.demo.service;
+package com.example.demo.service.game;
 
 import java.util.List;
 
@@ -21,7 +21,7 @@ import com.example.demo.model.Games;
 @Service
 @RequiredArgsConstructor
 @Slf4j
-public class GameService {
+public class GameServiceImpl implements IGameService {
 
     private final GameMapper gameMapper;
     private final GamePlayingExperienceMapper gamePlayingExperienceMapper;

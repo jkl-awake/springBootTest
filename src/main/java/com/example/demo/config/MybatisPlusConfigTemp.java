@@ -9,7 +9,7 @@ import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import java.time.OffsetDateTime;
+import java.time.LocalDateTime;
 
 @Configuration
 @MapperScan("com.example.demo.mapper")
@@ -33,14 +33,14 @@ public class MybatisPlusConfigTemp {
         return new MetaObjectHandler() {
             @Override
             public void insertFill(MetaObject metaObject) {
-                this.strictInsertFill(metaObject, "createdAt", OffsetDateTime.class, OffsetDateTime.now());
-                this.strictInsertFill(metaObject, "updatedAt", OffsetDateTime.class, OffsetDateTime.now());
+                this.strictInsertFill(metaObject, "createdAt", LocalDateTime.class, LocalDateTime.now());
+                this.strictInsertFill(metaObject, "updatedAt", LocalDateTime.class, LocalDateTime.now());
                 this.strictInsertFill(metaObject, "isDeleted", Boolean.class, false);
             }
 
             @Override
             public void updateFill(MetaObject metaObject) {
-                this.strictUpdateFill(metaObject, "updatedAt", OffsetDateTime.class, OffsetDateTime.now());
+                this.strictUpdateFill(metaObject, "updatedAt", LocalDateTime.class, LocalDateTime.now());
             }
         };
     }
