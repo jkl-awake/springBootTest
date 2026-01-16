@@ -15,13 +15,13 @@ public class BaseEntity {
     @TableId(type = IdType.AUTO)
     private Long id;
 
-    @TableField(value = "created_at",fill = FieldFill.INSERT)
+    @TableField(value = "created_at", fill = FieldFill.INSERT)
     private LocalDateTime createdAt;
 
-    @TableField(value = "updated_at",fill = FieldFill.INSERT_UPDATE)
+    @TableField(value = "updated_at", fill = FieldFill.INSERT_UPDATE)
     private LocalDateTime updatedAt;
 
     @TableLogic(value = "false", delval = "true")
     @TableField("is_deleted")
-    private Boolean isDeleted;
+    private Boolean isDeleted = false;
 }

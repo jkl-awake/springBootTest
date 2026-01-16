@@ -18,22 +18,22 @@ import java.util.Map;
 @AllArgsConstructor
 @RestController
 @RequestMapping("/api/auth")
-@Tag(name="Auth", description="Authentication APIs")
+@Tag(name = "Auth", description = "Authentication APIs")
 public class AuthController {
     private final JwtService jwtService;
     private final TokenStore tokenStore;
     private final JwtProperties properties;
 
-//    @PostMapping("/login")
-//    public ApiResponse<String> Login(@RequestBody Users user) {
-//        // 这里省略了用户验证的逻辑，假设用户已经通过验证
-//        String token = JwtUtil.generateToken(user.getUserName());
-//        if(token.isEmpty()){
-//            return ApiResponse.error(401, "Authentication failed");
-//        } else {
-//            return ApiResponse.success(token, "Authentication successful");
-//        }
-//    }
+    // @PostMapping("/login")
+    // public ApiResponse<String> Login(@RequestBody Users user) {
+    // // 这里省略了用户验证的逻辑，假设用户已经通过验证
+    // String token = JwtUtil.generateToken(user.getUserName());
+    // if(token.isEmpty()){
+    // return ApiResponse.error(401, "Authentication failed");
+    // } else {
+    // return ApiResponse.success(token, "Authentication successful");
+    // }
+    // }
 
     @PostMapping("/login")
     public ApiResponse<Map<String, String>> login(@RequestBody LoginRequest req) {
