@@ -1,0 +1,40 @@
+version: '3.8'
+
+services:
+  # 1. 数据库
+  db:
+    image: postgres:16-alpine
+    container_name: pg_server
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 123456
+      POSTGRES_DB: postgres
+    volumes:
+      - ./data/db:/var/lib/postgresql/data
+
+  # 2. 缓存
+  redis:
+    image: redis:7-alpine
+    container_name: redis_server
+
+  # 3. Java 后端 (注意：这里不再直接暴露端口到宿主机)
+  app:
+    build: .
+    container_name: java_web_app
+    depends_on:
+      - db
+      - redis
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/postgres
+      SPRING_REDIS_HOST: redis
+
+  # 4. Nginx 网关
+  nginx:
+    image: nginx:alpine
+    container_name: nginx_gateway
+    ports:
+      - "5053:80"  # 暴露 80 端口供浏览器访问
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro  # 挂载配置文件
+    depends_on:
+      - app
