@@ -35,50 +35,50 @@ public class StudyController {
     private final IStudyTab studyTabService;
 
     @GetMapping("/searchStudyArticlePage")
-    public ApiResponse<IPage<StudyArticle>> GetStudyArticlePage(@Valid @RequestParam StudyArticlePageDto request) {
+    public ApiResponse<IPage<StudyArticle>> getStudyArticlePage(@Valid @RequestParam StudyArticlePageDto request) {
         return studyArticleService.GetStudyArticlePage(request);
     }
 
     @PostMapping("/createOrUpdateStudyArticle")
-    public ApiResponse<Integer> CreateOrUpdateStudyArticle(
+    public ApiResponse<Integer> createOrUpdateStudyArticle(
             @Valid @RequestBody CreateOrUpdateStudyArticleDto request) {
         return studyArticleService.CreateOrUpdateStudyArticle(request);
     }
 
     @PostMapping("/deleteStudyArticle")
-    public ApiResponse<Integer> DeleteStudyArticle(@Valid @RequestParam Long id) {
+    public ApiResponse<Integer> deleteStudyArticle(@Valid @RequestParam Long id) {
         return studyArticleService.DeleteStudyArticle(id);
     }
 
     @GetMapping("/searchStudyCategoryPage")
-    public ApiResponse<IPage<StudyCategory>> GetStudyCategoryPage(
+    public ApiResponse<IPage<StudyCategory>> getStudyCategoryPage(
             @Valid @RequestParam StudyCategoryPageDto request) {
         return studyCategoryService.GetStudyCategoryPage(request);
     }
 
     @PostMapping("/createOrUpdateStudyCategory")
-    public ApiResponse<Integer> CreateOrUpdateStudyCategory(
+    public ApiResponse<Integer> createOrUpdateStudyCategory(
             @Valid @RequestBody CreateOrUpdateStudyCategoryDto request) {
         return studyCategoryService.CreateOrUpdateStudyCategory(request);
     }
 
     @PostMapping("/deleteStudyCategory")
-    public ApiResponse<Integer> DeleteStudyCategory(@Valid @RequestBody Long id) {
+    public ApiResponse<Integer> deleteStudyCategory(@Valid @RequestBody Long id) {
         return studyCategoryService.DeleteStudyCategory(id);
     }
 
     @GetMapping("/searchStudyTabPage")
-    public ApiResponse<IPage<StudyTab>> GetStudyTabPage(@Valid @RequestParam StudyTabPageDto request) {
+    public ApiResponse<IPage<StudyTab>> getStudyTabPage(@Valid @RequestParam StudyTabPageDto request) {
         return studyTabService.GetStudyTabPage(request);
     }
 
     @PostMapping("/createOrUpdateStudyTab")
-    public ApiResponse<Integer> CreateOrUpdateStudyTab(@Valid @RequestBody CreateOrUpdateStudyTabDto request) {
+    public ApiResponse<Integer> createOrUpdateStudyTab(@Valid @RequestBody CreateOrUpdateStudyTabDto request) {
         return studyTabService.CreateOrUpdateStudyTab(request);
     }
 
     @PostMapping("/deleteStudyTab")
-    public ApiResponse<Integer> DeleteStudyTab(@Valid @RequestBody Long id) {
+    public ApiResponse<Integer> deleteStudyTab(@Valid @RequestBody Long id) {
         return studyTabService.DeleteStudyTab(id);
     }
 }

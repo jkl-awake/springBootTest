@@ -28,7 +28,7 @@ public class NotesController {
      * 获取笔记分页列表
      */
     @GetMapping("/page")
-    public ApiResponse<IPage<Notes>> GetNotesPage(@Valid @RequestParam NotesPageDto request) {
+    public ApiResponse<IPage<Notes>> getNotesPage(@Valid @RequestParam NotesPageDto request) {
         return notesService.GetNotesPage(request);
     }
 
@@ -36,7 +36,7 @@ public class NotesController {
      * 创建或更新笔记
      */
     @PostMapping("/createOrUpdate")
-    public ApiResponse<Integer> CreateOrUpdateNotes(@Valid @RequestBody NotesCreateOrUpdateDto request) {
+    public ApiResponse<Integer> createOrUpdateNotes(@Valid @RequestBody NotesCreateOrUpdateDto request) {
         return notesService.CreateOrUpdateNotes(request);
     }
 
@@ -44,7 +44,7 @@ public class NotesController {
      * 删除笔记
      */
     @PostMapping("/delete")
-    public ApiResponse<Integer> DeleteNotes(@Valid @RequestBody Long id) {
+    public ApiResponse<Integer> deleteNotes(@Valid @RequestBody Long id) {
         return notesService.DeleteNotes(id);
     }
 }
