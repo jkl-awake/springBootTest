@@ -1,8 +1,8 @@
 package com.example.demo.controller;
 
 import com.example.demo.response.ApiResponse;
-import com.example.demo.request.LoginRequest;
-import com.example.demo.model.Players;
+import com.example.demo.model.dto.LoginDto;
+import com.example.demo.model.dos.Players;
 import com.example.demo.security.JwtProperties;
 import com.example.demo.security.JwtService;
 import com.example.demo.security.TokenStore;
@@ -36,7 +36,7 @@ public class AuthController {
     // }
 
     @PostMapping("/login")
-    public ApiResponse<Map<String, String>> login(@RequestBody LoginRequest req) {
+    public ApiResponse<Map<String, String>> login(@RequestBody LoginDto req) {
         // TODO: 用你的 player 表验证账号密码，拿到 Players
         // Players player = playerService.verify(req.userName, req.password);
         Players player = new Players(); // 占位：请替换

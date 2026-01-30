@@ -1,9 +1,9 @@
 package com.example.demo.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.example.demo.dto.GameWithPlayingExperienceDto;
+import com.example.demo.model.dto.GameWithPlayingExperienceDto;
 import com.example.demo.response.GameWithPlayingExperienceResponse;
-import com.example.demo.model.GamePlayingExperience;
+import com.example.demo.model.dos.GamePlayingExperience;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.LinkedHashMap;

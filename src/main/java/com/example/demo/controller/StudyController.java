@@ -8,15 +8,15 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.example.demo.model.StudyArticle;
-import com.example.demo.model.StudyCategory;
-import com.example.demo.model.StudyTab;
-import com.example.demo.request.CreateOrUpdateStudyArticleRequest;
-import com.example.demo.request.CreateOrUpdateStudyCategoryRequest;
-import com.example.demo.request.CreateOrUpdateStudyTabRequest;
-import com.example.demo.request.StudyArticlePageRequest;
-import com.example.demo.request.StudyCategoryPageRequest;
-import com.example.demo.request.StudyTabPageRequest;
+import com.example.demo.model.dos.StudyArticle;
+import com.example.demo.model.dos.StudyCategory;
+import com.example.demo.model.dos.StudyTab;
+import com.example.demo.model.dto.CreateOrUpdateStudyArticleDto;
+import com.example.demo.model.dto.CreateOrUpdateStudyCategoryDto;
+import com.example.demo.model.dto.CreateOrUpdateStudyTabDto;
+import com.example.demo.model.dto.StudyArticlePageDto;
+import com.example.demo.model.dto.StudyCategoryPageDto;
+import com.example.demo.model.dto.StudyTabPageDto;
 import com.example.demo.response.ApiResponse;
 import com.example.demo.service.study.IStudyArticle;
 import com.example.demo.service.study.IStudyCategory;
@@ -35,13 +35,13 @@ public class StudyController {
     private final IStudyTab studyTabService;
 
     @GetMapping("/searchStudyArticlePage")
-    public ApiResponse<IPage<StudyArticle>> GetStudyArticlePage(@Valid @RequestParam StudyArticlePageRequest request) {
+    public ApiResponse<IPage<StudyArticle>> GetStudyArticlePage(@Valid @RequestParam StudyArticlePageDto request) {
         return studyArticleService.GetStudyArticlePage(request);
     }
 
     @PostMapping("/createOrUpdateStudyArticle")
     public ApiResponse<Integer> CreateOrUpdateStudyArticle(
-            @Valid @RequestBody CreateOrUpdateStudyArticleRequest request) {
+            @Valid @RequestBody CreateOrUpdateStudyArticleDto request) {
         return studyArticleService.CreateOrUpdateStudyArticle(request);
     }
 
@@ -52,13 +52,13 @@ public class StudyController {
 
     @GetMapping("/searchStudyCategoryPage")
     public ApiResponse<IPage<StudyCategory>> GetStudyCategoryPage(
-            @Valid @RequestParam StudyCategoryPageRequest request) {
+            @Valid @RequestParam StudyCategoryPageDto request) {
         return studyCategoryService.GetStudyCategoryPage(request);
     }
 
     @PostMapping("/createOrUpdateStudyCategory")
     public ApiResponse<Integer> CreateOrUpdateStudyCategory(
-            @Valid @RequestBody CreateOrUpdateStudyCategoryRequest request) {
+            @Valid @RequestBody CreateOrUpdateStudyCategoryDto request) {
         return studyCategoryService.CreateOrUpdateStudyCategory(request);
     }
 
@@ -68,12 +68,12 @@ public class StudyController {
     }
 
     @GetMapping("/searchStudyTabPage")
-    public ApiResponse<IPage<StudyTab>> GetStudyTabPage(@Valid @RequestParam StudyTabPageRequest request) {
+    public ApiResponse<IPage<StudyTab>> GetStudyTabPage(@Valid @RequestParam StudyTabPageDto request) {
         return studyTabService.GetStudyTabPage(request);
     }
 
     @PostMapping("/createOrUpdateStudyTab")
-    public ApiResponse<Integer> CreateOrUpdateStudyTab(@Valid @RequestBody CreateOrUpdateStudyTabRequest request) {
+    public ApiResponse<Integer> CreateOrUpdateStudyTab(@Valid @RequestBody CreateOrUpdateStudyTabDto request) {
         return studyTabService.CreateOrUpdateStudyTab(request);
     }
 

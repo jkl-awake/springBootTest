@@ -3,7 +3,7 @@ package com.example.demo.service;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.example.demo.mapper.PlayerMapper;
-import com.example.demo.model.Players;
+import com.example.demo.model.dos.Players;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

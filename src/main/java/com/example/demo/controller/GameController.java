@@ -2,13 +2,13 @@ package com.example.demo.controller;
 
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.example.demo.request.PlayingExperienceOperateRequest;
+import com.example.demo.model.dto.PlayingExperienceOperateDto;
 import com.example.demo.response.ApiResponse;
-import com.example.demo.request.GameCreateRequest;
+import com.example.demo.model.dto.GameCreateDto;
 import com.example.demo.response.GameWithPlayingExperienceResponse;
 import com.example.demo.service.game.IGameService;
-import com.example.demo.enums.PlatformEnum;
-import com.example.demo.model.Games;
+import com.example.demo.common.enums.PlatformEnum;
+import com.example.demo.model.dos.Games;
 
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
@@ -30,7 +30,7 @@ public class GameController {
 
     @PostMapping("/CreateGame")
     @Operation(summary = "创建游戏")
-    public ApiResponse<String> CreateGame(@Valid @RequestBody GameCreateRequest request) {
+    public ApiResponse<String> CreateGame(@Valid @RequestBody GameCreateDto request) {
         Games game = new Games(request.getName(),
                 request.getImage(),
                 request.getStar(),
@@ -75,7 +75,7 @@ public class GameController {
 
     @PostMapping
     @Operation(summary = "操作游戏游玩体验")
-    public ApiResponse<Integer> OperateGamePlayingExperience(@Valid @RequestBody PlayingExperienceOperateRequest request){
+    public ApiResponse<Integer> OperateGamePlayingExperience(@Valid @RequestBody PlayingExperienceOperateDto request){
         int result = gameService.operateGamePlayingExperience(request);
         if (result > 0) {
             return ApiResponse.success(result, "操作成功");

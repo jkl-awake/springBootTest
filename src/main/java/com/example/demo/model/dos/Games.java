@@ -1,0 +1,39 @@
+package com.example.demo.model.dos;
+
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableName;
+import com.example.demo.common.enums.PlatformEnum;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+
+@Data
+@TableName("games")
+@EqualsAndHashCode(callSuper = true)
+@NoArgsConstructor
+public class Games extends BaseEntity {
+
+    @TableField("game_name")
+    private String gameName;
+
+    private String image;
+    private Integer star;
+    private PlatformEnum platform;
+    private String evaluation;
+
+    public Games(String gameName, String image, int star, PlatformEnum platform, String evaluation) {
+        this.gameName = gameName;
+        this.image = image;
+        this.star = star;
+        this.platform = platform;
+        this.evaluation = evaluation;
+    }
+
+    public void UpdateGame(String gameName, String image, int star, PlatformEnum platform, String evaluation) {
+        this.gameName = gameName;
+        this.image = image;
+        this.star = star;
+        this.platform = platform;
+        this.evaluation = evaluation;
+    }
+}

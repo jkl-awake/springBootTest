@@ -1,15 +1,15 @@
 package com.example.demo.service.study;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.example.demo.model.StudyCategory;
-import com.example.demo.request.CreateOrUpdateStudyCategoryRequest;
-import com.example.demo.request.StudyCategoryPageRequest;
+import com.example.demo.model.dos.StudyCategory;
+import com.example.demo.model.dto.CreateOrUpdateStudyCategoryDto;
+import com.example.demo.model.dto.StudyCategoryPageDto;
 import com.example.demo.response.ApiResponse;
 
 public interface IStudyCategory {
-    ApiResponse<IPage<StudyCategory>> GetStudyCategoryPage(StudyCategoryPageRequest request);
+    ApiResponse<IPage<StudyCategory>> GetStudyCategoryPage(StudyCategoryPageDto request);
 
-    ApiResponse<Integer> CreateOrUpdateStudyCategory(CreateOrUpdateStudyCategoryRequest request);
+    ApiResponse<Integer> CreateOrUpdateStudyCategory(CreateOrUpdateStudyCategoryDto request);
 
     ApiResponse<Integer> DeleteStudyCategory(Long id);
 }

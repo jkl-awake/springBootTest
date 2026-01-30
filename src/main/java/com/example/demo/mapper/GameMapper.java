@@ -1,13 +1,14 @@
 package com.example.demo.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.example.demo.dto.GameWithPlayingExperienceDto;
-import com.example.demo.model.Games;
+import com.example.demo.model.dto.GameWithPlayingExperienceDto;
+import com.example.demo.model.dos.Games;
 
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
+import org.mapstruct.factory.Mappers;
 
 @Mapper
 public interface GameMapper extends BaseMapper<Games> {
@@ -22,4 +23,5 @@ public interface GameMapper extends BaseMapper<Games> {
            where g.id = #{gameId} and g.is_deleted = false and gpe.is_deleted = false
 """)
     List<GameWithPlayingExperienceDto> getGameWithPlayingExperiences(Long gameId);
+
 }

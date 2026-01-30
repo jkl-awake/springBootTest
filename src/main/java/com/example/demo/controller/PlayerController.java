@@ -2,10 +2,10 @@ package com.example.demo.controller;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.example.demo.response.ApiResponse;
-import com.example.demo.request.PlayerCreateRequest;
+import com.example.demo.model.dto.PlayerCreateDto;
 import com.example.demo.response.PlayerResponse;
-import com.example.demo.request.PlayerUpdateRequest;
-import com.example.demo.model.Players;
+import com.example.demo.model.dto.PlayerUpdateDto;
+import com.example.demo.model.dos.Players;
 import com.example.demo.service.PlayerService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -27,7 +27,7 @@ public class PlayerController {
 
     @PostMapping
     @Operation(summary = "Create player")
-    public ResponseEntity<ApiResponse<PlayerResponse>> create(@Valid @RequestBody PlayerCreateRequest req) {
+    public ResponseEntity<ApiResponse<PlayerResponse>> create(@Valid @RequestBody PlayerCreateDto req) {
         Players created = playerService.createPlayer(req.getUserName());
         return ResponseEntity.created(URI.create("/api/players/" + created.getId()))
                 .body(ApiResponse.success(toResponse(created)));
@@ -60,7 +60,7 @@ public class PlayerController {
 
     @PutMapping("/{id}")
     @Operation(summary = "Update player")
-    public ApiResponse<PlayerResponse> update(@PathVariable Long id, @Valid @RequestBody PlayerUpdateRequest req) {
+    public ApiResponse<PlayerResponse> update(@PathVariable Long id, @Valid @RequestBody PlayerUpdateDto req) {
         Players updated = playerService.updatePlayer(id, req.getUserName());
         return ApiResponse.success(toResponse(updated));
     }
