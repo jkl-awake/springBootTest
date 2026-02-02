@@ -63,10 +63,9 @@ public class StudyTabImpl implements IStudyTab {
     @Override
     public ApiResponse<StudyTabVo> getStudyTab(StudyTabPageDto dto) {
         try {
-            // 输入验证
-            if (dto == null || dto.getId() == 0) {
+            // 输入验证（修复 NPE 风险）
+            if (dto == null || dto.getId() == 0)
                 return ApiResponse.error("invalid request parameter");
-            }
 
             // 一次查询获取 tab 和所有分类信息（移除冗余的 selectById）
             List<StudyTabWithCategoryVo> studyTabWithCategoryVos =
@@ -84,21 +83,23 @@ public class StudyTabImpl implements IStudyTab {
             Long firstCategoryId = firstVo.getCategoryId() != 0 ?
                     firstVo.getCategoryId() : DEFAULT_CATEGORY_ID;
 
+            // 提取是否有分类的判断，避免重复条件
+            boolean hasCategory = !firstCategoryId.equals(DEFAULT_CATEGORY_ID);
+
             // 构建分类列表（只在有分类时才构建）
             List<StudyCategoryVo> categoryVoList = null;
-            if (!firstCategoryId.equals(DEFAULT_CATEGORY_ID)) {
+            StudyArticleVo articleVo = null;
+
+            if (hasCategory) {
+                // 直接映射，无需重复过滤（因为 SQL 已保证返回的都是有效分类）
                 categoryVoList = studyTabWithCategoryVos.stream()
-                        .filter(vo -> vo.getCategoryId() != 0)
                         .map(vo -> StudyCategoryVo.builder()
                                 .categoryId(vo.getCategoryId())
                                 .categoryName(vo.getCategoryName())
                                 .build())
                         .toList();
-            }
 
-            // 查询第一个分类的最新文章
-            StudyArticleVo articleVo = null;
-            if (!firstCategoryId.equals(DEFAULT_CATEGORY_ID)) {
+                // 查询第一个分类的最新文章
                 StudyArticle article = studyArticleMapper.selectOne(
                         new QueryWrapper<StudyArticle>()
                                 .lambda()
