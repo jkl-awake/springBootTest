@@ -2,7 +2,7 @@ package com.example.demo.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.example.demo.model.dto.GameWithPlayingExperienceDto;
-import com.example.demo.response.GameWithPlayingExperienceResponse;
+import com.example.demo.model.vo.game.GameWithPlayingExperienceVo;
 import com.example.demo.model.dos.GamePlayingExperience;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -28,7 +28,7 @@ public interface GamePlayingExperienceMapper extends BaseMapper<GamePlayingExper
 //        return new ArrayList<>(responseMap.values());
 //    }
 
-    public static List<GameWithPlayingExperienceResponse> toResponseList(List<GameWithPlayingExperienceDto> dtoList) {
+    static List<GameWithPlayingExperienceVo> toResponseList(List<GameWithPlayingExperienceDto> dtoList) {
         if (dtoList == null || dtoList.isEmpty()) {
             return List.of();
         }
@@ -43,7 +43,7 @@ public interface GamePlayingExperienceMapper extends BaseMapper<GamePlayingExper
 
         // 将分组结果映射为响应对象列表
         return grouped.entrySet().stream()
-                .map(entry -> new GameWithPlayingExperienceResponse(
+                .map(entry -> new GameWithPlayingExperienceVo(
                         entry.getKey(),
                         // 取分组中第一个的 gameName（从原列表中查找）
                         dtoList.stream().filter(d -> d.getGameId() == entry.getKey()).findFirst().map(GameWithPlayingExperienceDto::getGameName).orElse(null),
@@ -52,15 +52,15 @@ public interface GamePlayingExperienceMapper extends BaseMapper<GamePlayingExper
                 .collect(Collectors.toList());
     }
 
-    public static GameWithPlayingExperienceResponse toResponseForGame(List<GameWithPlayingExperienceDto> dtos, long gameId){
+    static GameWithPlayingExperienceVo toResponseForGame(List<GameWithPlayingExperienceDto> dtos, long gameId){
         List<GameWithPlayingExperienceDto> filtered = dtos == null ? List.of()
-                : dtos.stream().filter(f -> f.getGameId() == gameId).collect(Collectors.toList());
-        if(filtered.isEmpty()) return new GameWithPlayingExperienceResponse();
+                : dtos.stream().filter(f -> f.getGameId() == gameId).toList();
+        if(filtered.isEmpty()) return new GameWithPlayingExperienceVo();
 
         GameWithPlayingExperienceDto first = filtered.get(0);
         List<String> experiences = filtered.stream()
                 .map(GameWithPlayingExperienceDto::getPlayingExperienceContext)
-                .collect(Collectors.toList());
-        return new GameWithPlayingExperienceResponse(gameId, first.getGameName(), experiences);
+                .toList();
+        return new GameWithPlayingExperienceVo(gameId, first.getGameName(), experiences);
     }
 }

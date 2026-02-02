@@ -1,5 +1,6 @@
 package com.example.demo.service.study.impl;
 
+import com.example.demo.common.utils.ApiResponse;
 import com.example.demo.service.study.IStudyCategory;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -14,7 +15,6 @@ import com.example.demo.mapper.StudyCategoryMapper;
 import com.example.demo.model.dos.StudyCategory;
 import com.example.demo.model.dto.CreateOrUpdateStudyCategoryDto;
 import com.example.demo.model.dto.StudyCategoryPageDto;
-import com.example.demo.response.ApiResponse;
 import com.example.demo.common.utils.JsonUtils;
 
 @Service
@@ -42,7 +42,7 @@ public class StudyCategoryImpl implements IStudyCategory {
                             .orderByDesc(StudyCategory::getCreatedAt));
             return ApiResponse.success(page);
         } catch (Exception e) {
-            log.error(String.format("get study category page failed, request: {}", JsonUtils.toSilentJson(request)), e);
+            log.error("get study category page failed, request: {}", JsonUtils.toSilentJson(request), e);
             return ApiResponse.error("get study category page failed");
         }
     }
@@ -74,10 +74,7 @@ public class StudyCategoryImpl implements IStudyCategory {
                 return ApiResponse.success(updateCount);
             }
         } catch (Exception e) {
-            log.error(
-                    String.format("create or update study category failed, studyCategory: {}",
-                            JsonUtils.toSilentJson(studyCategory)),
-                    e);
+            log.error("create or update study category failed, studyCategory: {}",JsonUtils.toSilentJson(studyCategory),e);
             return ApiResponse.error("create or update study category failed");
         }
     }
@@ -95,7 +92,7 @@ public class StudyCategoryImpl implements IStudyCategory {
             int deleteCount = studyCategoryMapper.deleteById(id);
             return ApiResponse.success(deleteCount);
         } catch (Exception e) {
-            log.error(String.format("delete study category failed, id: {}", id), e);
+            log.error("delete study category failed, id: {}", id, e);
             return ApiResponse.error("delete study category failed");
         }
     }

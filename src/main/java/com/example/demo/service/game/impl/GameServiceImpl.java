@@ -6,6 +6,7 @@ import java.util.List;
 import com.example.demo.mapper.GamePlayingExperienceMapper;
 import com.example.demo.model.dos.GamePlayingExperience;
 import com.example.demo.model.dto.PlayingExperienceOperateDto;
+import com.example.demo.model.vo.game.GameWithPlayingExperienceVo;
 import com.example.demo.service.game.IGameService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -15,7 +16,6 @@ import org.springframework.transaction.annotation.Transactional;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.example.demo.model.dto.GameWithPlayingExperienceDto;
-import com.example.demo.response.GameWithPlayingExperienceResponse;
 import com.example.demo.mapper.GameMapper;
 import com.example.demo.model.dos.Games;
 
@@ -79,17 +79,17 @@ public class GameServiceImpl implements IGameService {
     }
 
     // 获取游戏与游玩体验
-    public GameWithPlayingExperienceResponse getGameWithPlayingExperience(Long gameId) {
+    public GameWithPlayingExperienceVo getGameWithPlayingExperience(Long gameId) {
         log.info("getGameWithPlayingExperience called with gameId={}", gameId);
         Games game = gameMapper.selectById(gameId);
         if (game == null || Boolean.TRUE.equals(game.getIsDeleted())) {
             log.warn("Game not found or deleted, gameId={}", gameId);
-            return new GameWithPlayingExperienceResponse();
+            return new GameWithPlayingExperienceVo();
         }
 
         List<GameWithPlayingExperienceDto> experiences = gameMapper.getGameWithPlayingExperiences(gameId);
         if (!experiences.isEmpty()) {
-            GameWithPlayingExperienceResponse response = GamePlayingExperienceMapper.toResponseForGame(experiences, gameId);
+            GameWithPlayingExperienceVo response = GamePlayingExperienceMapper.toResponseForGame(experiences, gameId);
             log.debug("getGameWithPlayingExperience success, gameId={}", gameId);
             return response;
         }

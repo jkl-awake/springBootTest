@@ -1,5 +1,6 @@
 package com.example.demo.service.notes.impl;
 
+import com.example.demo.common.utils.ApiResponse;
 import com.example.demo.service.notes.INotesService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -11,7 +12,6 @@ import com.example.demo.mapper.NotesMapper;
 import com.example.demo.model.dos.Notes;
 import com.example.demo.model.dto.NotesCreateOrUpdateDto;
 import com.example.demo.model.dto.NotesPageDto;
-import com.example.demo.response.ApiResponse;
 import com.example.demo.common.utils.JsonUtils;
 
 import lombok.RequiredArgsConstructor;
@@ -43,7 +43,7 @@ public class NotesServiceImpl implements INotesService {
             return ApiResponse.success(1);
         } catch (Exception e) {
             String requestJson = JsonUtils.toSilentJson(request);
-            log.error(String.format("create or update note failed, request: {}", requestJson, e));
+            log.error("create or update note failed, request: {}", requestJson, e);
             return ApiResponse.error("create or update note failed");
         }
     }
@@ -62,7 +62,7 @@ public class NotesServiceImpl implements INotesService {
             log.info("delete note success");
             return ApiResponse.success(1);
         } catch (Exception e) {
-            log.error(String.format("delete note failed, id: {}", id), e);
+            log.error("delete note failed, id: {}", id, e);
             return ApiResponse.error("delete note failed");
         }
     }
@@ -76,11 +76,10 @@ public class NotesServiceImpl implements INotesService {
                     new QueryWrapper<Notes>()
                             .lambda()
                             .eq(Notes::getIsDeleted, false)
-                            // 等同于 .orderByDesc(Notes::getCreatedAt))
-                            .orderByDesc(n -> n.getCreatedAt()));
+                            .orderByDesc(Notes::getCreatedAt));
             return ApiResponse.success(page);
         } catch (Exception e) {
-            log.error(String.format("get notes page failed, request: {}", JsonUtils.toSilentJson(request)), e);
+            log.error("get notes page failed, request: {}", JsonUtils.toSilentJson(request), e);
             return ApiResponse.error("get notes page failed");
         }
     }

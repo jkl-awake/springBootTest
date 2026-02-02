@@ -12,7 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.example.demo.response.ApiResponse;
+import com.example.demo.common.utils.ApiResponse;
 
 @Slf4j
 @Service
@@ -30,7 +30,7 @@ public class FileServiceImpl implements IFileService {
             String extension = originalFilename != null && originalFilename.contains(".")
                     ? originalFilename.substring(originalFilename.lastIndexOf("."))
                     : "";
-            String filename = UUID.randomUUID().toString() + extension;
+            String filename = UUID.randomUUID() + extension;
 
             // 3. 确保目录存在
             Path uploadPath = Paths.get(uploadDir).toAbsolutePath().normalize();
@@ -43,7 +43,7 @@ public class FileServiceImpl implements IFileService {
             // 5. 生成下载链接
             return ApiResponse.success(String.format("http://localhost:8080/api/images/download/%s", filename));
         } catch (Exception e) {
-            log.error(String.format("文件上传失败，文件名为：{}", file.getOriginalFilename()), e);
+            log.error("文件上传失败，文件名为：{}", file.getOriginalFilename(), e);
             return ApiResponse.error("文件上传失败");
         }
     }

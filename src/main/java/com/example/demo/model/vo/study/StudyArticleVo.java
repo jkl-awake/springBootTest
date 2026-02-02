@@ -1,19 +1,18 @@
-package com.example.demo.model.vo;
+package com.example.demo.model.vo.study;
 
+import java.io.Serializable;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.io.Serializable;
-
 @Data
-@Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class StudyPageVo implements Serializable {
+@Builder
+public class StudyArticleVo implements Serializable {
 
-    private Long id;
+    private long id;
     private String title;
     private String content;
 }

@@ -1,4 +1,4 @@
-package com.example.demo.response;
+package com.example.demo.common.utils;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ApiResponse<T> {
+
     private int code;
     private T data;
     private String message;

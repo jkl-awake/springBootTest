@@ -1,4 +1,4 @@
-package com.example.demo.model.vo;
+package com.example.demo.model.vo.game;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

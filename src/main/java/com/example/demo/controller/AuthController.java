@@ -1,25 +1,29 @@
 package com.example.demo.controller;
 
-import com.example.demo.response.ApiResponse;
-import com.example.demo.model.dto.LoginDto;
+import com.example.demo.common.utils.ApiResponse;
 import com.example.demo.model.dos.Players;
+import com.example.demo.model.dto.LoginDto;
 import com.example.demo.security.JwtProperties;
 import com.example.demo.security.JwtService;
 import com.example.demo.security.TokenStore;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import java.time.Duration;
+import java.util.Map;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-
-import java.time.Duration;
-import java.util.Map;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @AllArgsConstructor
 @RestController
 @RequestMapping("/api/auth")
 @Tag(name = "Auth", description = "Authentication APIs")
 public class AuthController {
+
     private final JwtService jwtService;
     private final TokenStore tokenStore;
     private final JwtProperties properties;
@@ -44,15 +48,25 @@ public class AuthController {
         player.setUserName(req.userName);
 
         String jti = JwtService.newJti();
-        String token = jwtService.generateToken(player.getId(), player.getUserName(), jti);
+        String token = jwtService.generateToken(
+            player.getId(),
+            player.getUserName(),
+            jti
+        );
 
-        tokenStore.store(jti, player.getId(), Duration.ofSeconds(properties.getTtlSeconds()));
+        tokenStore.store(
+            jti,
+            player.getId(),
+            Duration.ofSeconds(properties.getTtlSeconds())
+        );
 
         return ApiResponse.success(Map.of("token", token));
     }
 
     @PostMapping("/logout")
-    public ResponseEntity<ApiResponse<Void>> logout(@RequestHeader(HttpHeaders.AUTHORIZATION) String authorization) {
+    public ResponseEntity<ApiResponse<Void>> logout(
+        @RequestHeader(HttpHeaders.AUTHORIZATION) String authorization
+    ) {
         if (authorization != null && authorization.startsWith("Bearer ")) {
             String token = authorization.substring("Bearer ".length()).trim();
             try {

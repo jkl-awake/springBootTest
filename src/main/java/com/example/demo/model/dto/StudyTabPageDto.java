@@ -10,4 +10,6 @@ import java.io.Serializable;
 @EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
 public class StudyTabPageDto extends PageDto implements Serializable {
+
+    private long id;
 }
