@@ -24,7 +24,7 @@ RUN addgroup -g 1001 spring && \
 COPY --from=builder /app/target/*.jar app.jar
 
 # 暴露端口
-EXPOSE 8083
+EXPOSE 80
 
 # 切换到非root用户
 USER spring
