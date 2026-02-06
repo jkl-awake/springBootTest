@@ -23,3 +23,13 @@ jobs:
 
       - name: Build with Maven
         run: mvn clean package
+
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v4
+        with:
+          context: .
+          push: true
+          tags: ghcr.io/jkl-awake/springboottest:latest
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
