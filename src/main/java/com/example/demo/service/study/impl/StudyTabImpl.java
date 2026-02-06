@@ -63,7 +63,6 @@ public class StudyTabImpl implements IStudyTab {
     @Override
     public ApiResponse<StudyTabVo> getStudyTab(StudyTabPageDto dto) {
         try {
-            // 输入验证（修复 NPE 风险）
             if (dto == null || dto.getId() == 0)
                 return ApiResponse.error("invalid request parameter");
 
