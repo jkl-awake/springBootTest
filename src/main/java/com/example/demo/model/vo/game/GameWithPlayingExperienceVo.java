@@ -15,5 +15,9 @@ public class GameWithPlayingExperienceVo {
 
     private long gameId;
     private String gameName;
-    private List<String> playingExperiences;
+    private String gameImage;
+    private int star;
+    private int platform;
+    private String createTime;
+    private List<PlayingExperienceVo> playingExperiences;
 }

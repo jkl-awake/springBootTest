@@ -1,6 +1,8 @@
 package com.example.demo.service.study.impl;
 
 import com.example.demo.mapper.StudyArticleMapper;
+import com.example.demo.model.bo.CreateOrUpdateStudyTabBo;
+import com.example.demo.model.bo.StudyTabPageBo;
 import com.example.demo.model.dos.StudyArticle;
 import com.example.demo.model.vo.study.StudyArticleVo;
 import com.example.demo.model.vo.study.StudyCategoryVo;
@@ -46,7 +48,7 @@ public class StudyTabImpl implements IStudyTab {
      * 
      */
     @Override
-    public ApiResponse<IPage<StudyTab>> getStudyTabPage(StudyTabPageDto request) {
+    public ApiResponse<IPage<StudyTab>> getStudyTabPage(StudyTabPageBo request) {
         try {
             IPage<StudyTab> page = studyTabMapper.selectPage(new Page<>(request.getPageNum(), request.getPageSize()),
                     new QueryWrapper<StudyTab>()
@@ -61,7 +63,7 @@ public class StudyTabImpl implements IStudyTab {
     }
 
     @Override
-    public ApiResponse<StudyTabVo> getStudyTab(StudyTabPageDto dto) {
+    public ApiResponse<StudyTabVo> getStudyTab(StudyTabPageBo dto) {
         try {
             if (dto == null || dto.getId() == 0)
                 return ApiResponse.error("invalid request parameter");
@@ -132,7 +134,7 @@ public class StudyTabImpl implements IStudyTab {
      */
     @Override
     @Transactional
-    public ApiResponse<Integer> createOrUpdateStudyTab(CreateOrUpdateStudyTabDto request) {
+    public ApiResponse<Integer> createOrUpdateStudyTab(CreateOrUpdateStudyTabBo request) {
         StudyTab studyTab = null;
         try {
             if (request.getId() == null || request.getId() == 0) {

@@ -1,21 +1,23 @@
-package com.example.demo.model.vo.game;
+package com.example.demo.model.dto;
 
-import com.example.demo.common.enums.PlatformEnum;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.io.Serializable;
+import java.util.List;
 
-@Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class GamesVo implements Serializable {
-
+@Data
+@Builder
+public class GameOperateDto {
     private Long id;
     private String name;
     private String image;
     private int star;
-    private PlatformEnum platform;
+    private int platform;
     private String evaluation;
+
+    private List<PlayingExperienceOperateDto> playingExperiences;
 }

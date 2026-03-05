@@ -6,6 +6,8 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.example.demo.common.utils.ApiResponse;
 import com.example.demo.common.utils.JsonUtils;
 import com.example.demo.mapper.StudyArticleMapper;
+import com.example.demo.model.bo.CreateOrUpdateStudyArticleBo;
+import com.example.demo.model.bo.StudyArticlePageBo;
 import com.example.demo.model.dos.StudyArticle;
 import com.example.demo.model.dto.CreateOrUpdateStudyArticleDto;
 import com.example.demo.model.dto.StudyArticlePageDto;
@@ -28,7 +30,7 @@ public class StudyArticleImpl implements IStudyArticle {
      */
     @Override
     public ApiResponse<IPage<StudyArticle>> GetStudyArticlePage(
-        StudyArticlePageDto request
+        StudyArticlePageBo request
     ) {
         try {
             IPage<StudyArticle> page = studyArticleMapper.selectPage(
@@ -59,7 +61,7 @@ public class StudyArticleImpl implements IStudyArticle {
     @Override
     @Transactional
     public ApiResponse<Integer> CreateOrUpdateStudyArticle(
-        CreateOrUpdateStudyArticleDto request
+        CreateOrUpdateStudyArticleBo request
     ) {
         StudyArticle studyArticle = null;
         try {

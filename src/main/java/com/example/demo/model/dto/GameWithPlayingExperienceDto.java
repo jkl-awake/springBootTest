@@ -12,6 +12,10 @@ import java.io.Serializable;
 public class GameWithPlayingExperienceDto implements Serializable {
     private long gameId;
     private String gameName;
+    private String gameImage;
+    private int star;
+    private int platform;
+    private String createTime;
     private long playingExperienceId;
     private String playingExperienceContext;
 }

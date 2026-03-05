@@ -2,6 +2,8 @@ package com.example.demo.controller;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.example.demo.common.utils.ApiResponse;
+import com.example.demo.converter.StudyConverter;
+import com.example.demo.model.bo.*;
 import com.example.demo.model.dos.StudyArticle;
 import com.example.demo.model.dos.StudyCategory;
 import com.example.demo.model.dos.StudyTab;
@@ -33,18 +35,22 @@ public class StudyController {
     private final IStudyCategory studyCategoryService;
     private final IStudyTab studyTabService;
 
+    private final StudyConverter studyConverter;
+
     @GetMapping("/searchStudyArticlePage")
     public ApiResponse<IPage<StudyArticle>> getStudyArticlePage(
         @Valid @RequestParam StudyArticlePageDto request
     ) {
-        return studyArticleService.GetStudyArticlePage(request);
+        StudyArticlePageBo bo = studyConverter.toBo(request);
+        return studyArticleService.GetStudyArticlePage(bo);
     }
 
     @PostMapping("/createOrUpdateStudyArticle")
     public ApiResponse<Integer> createOrUpdateStudyArticle(
         @Valid @RequestBody CreateOrUpdateStudyArticleDto request
     ) {
-        return studyArticleService.CreateOrUpdateStudyArticle(request);
+        CreateOrUpdateStudyArticleBo bo = studyConverter.toBo(request);
+        return studyArticleService.CreateOrUpdateStudyArticle(bo);
     }
 
     @PostMapping("/deleteStudyArticle")
@@ -58,14 +64,16 @@ public class StudyController {
     public ApiResponse<IPage<StudyCategory>> getStudyCategoryPage(
         @Valid @RequestParam StudyCategoryPageDto request
     ) {
-        return studyCategoryService.GetStudyCategoryPage(request);
+        StudyCategoryPageBo bo = studyConverter.toBo(request);
+        return studyCategoryService.GetStudyCategoryPage(bo);
     }
 
     @PostMapping("/createOrUpdateStudyCategory")
     public ApiResponse<Integer> createOrUpdateStudyCategory(
         @Valid @RequestBody CreateOrUpdateStudyCategoryDto request
     ) {
-        return studyCategoryService.CreateOrUpdateStudyCategory(request);
+        CreateOrUpdateStudyCategoryBo bo = studyConverter.toBo(request);
+        return studyCategoryService.CreateOrUpdateStudyCategory(bo);
     }
 
     @PostMapping("/deleteStudyCategory")
@@ -79,14 +87,16 @@ public class StudyController {
     public ApiResponse<IPage<StudyTab>> getStudyTabPage(
         @Valid @RequestParam StudyTabPageDto request
     ) {
-        return studyTabService.getStudyTabPage(request);
+        StudyTabPageBo bo = studyConverter.toBo(request);
+        return studyTabService.getStudyTabPage(bo);
     }
 
     @PostMapping("/createOrUpdateStudyTab")
     public ApiResponse<Integer> createOrUpdateStudyTab(
-        @Valid @RequestBody CreateOrUpdateStudyTabDto request
+        @Valid @RequestBody CreateOrUpdateStudyTabDto dto
     ) {
-        return studyTabService.createOrUpdateStudyTab(request);
+        CreateOrUpdateStudyTabBo bo = studyConverter.toBo(dto);
+        return studyTabService.createOrUpdateStudyTab(bo);
     }
 
     @PostMapping("/deleteStudyTab")
@@ -102,6 +112,7 @@ public class StudyController {
      */
     @PostMapping("/getStudyTab")
     public ApiResponse<StudyTabVo> getStudyTab(@Valid @RequestBody StudyTabPageDto dto) {
-        return studyTabService.getStudyTab(dto);
+        StudyTabPageBo bo = studyConverter.toBo(dto);
+        return studyTabService.getStudyTab(bo);
     }
 }

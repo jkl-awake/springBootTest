@@ -1,6 +1,7 @@
 package com.example.demo.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.example.demo.model.bo.GameWithPlayingExperienceBo;
 import com.example.demo.model.dto.GameWithPlayingExperienceDto;
 import com.example.demo.model.dos.Games;
 
@@ -18,10 +19,19 @@ public interface GameMapper extends BaseMapper<Games> {
      * get game with its playing experience
      * */
     @Select("""
-        select g.id as gameId, g.game_name as gameName, gpe.id as playingExperienceId, gpe.context as playingExperienceContext from games g 
+        select g.id as gameId, 
+               g.game_name as gameName, 
+               g.image as gameImage, 
+               g.star as star, 
+               g.platform as platform, 
+               g.created_at as createdAt,
+               gpe.id as playingExperienceId, 
+               gpe.context as playingExperienceContext,
+               gpe.created_at as playingExperienceCreateTime
+                from games g 
            left join game_playing_experience gpe on g.id = gpe.game_id
            where g.id = #{gameId} and g.is_deleted = false and gpe.is_deleted = false
 """)
-    List<GameWithPlayingExperienceDto> getGameWithPlayingExperiences(Long gameId);
+    List<GameWithPlayingExperienceBo> getGameWithPlayingExperiences(Long gameId);
 
 }

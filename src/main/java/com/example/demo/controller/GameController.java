@@ -3,10 +3,12 @@ package com.example.demo.controller;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.example.demo.common.enums.PlatformEnum;
 import com.example.demo.common.utils.ApiResponse;
-import com.example.demo.model.dos.Games;
-import com.example.demo.model.dto.GameCreateDto;
-import com.example.demo.model.dto.PlayingExperienceOperateDto;
+import com.example.demo.common.utils.BaseResponse;
+import com.example.demo.converter.GameConverter;
+import com.example.demo.model.bo.*;
+import com.example.demo.model.dto.*;
 import com.example.demo.model.vo.game.GameWithPlayingExperienceVo;
+import com.example.demo.model.vo.game.GamesVo;
 import com.example.demo.service.game.IGameService;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
@@ -20,12 +22,14 @@ import org.springframework.web.bind.annotation.*;
 public class GameController {
 
     private final IGameService gameService;
+    private final GameConverter gameConverter;
 
     @PostMapping("/GetGames")
     @Operation(summary = "查询游戏分页列表")
-    public ApiResponse<Page<Games>> getGames(int page, int size) {
-        Page<Games> gamesPage = gameService.getGamesPage(page, size);
-        return ApiResponse.success(gamesPage);
+    public BaseResponse getGames(@Valid @RequestBody GetGamesDto dto) {
+        GetGamesBo bo = gameConverter.toBo(dto);
+        Page<GamesVo> gamesPage = gameService.getGamesPage(bo);
+        return BaseResponse.success(gamesPage);
     }
 
     @PostMapping("/CreateGame")
@@ -33,13 +37,7 @@ public class GameController {
     public ApiResponse<String> createGame(
         @Valid @RequestBody GameCreateDto request
     ) {
-        Games game = new Games(
-            request.getName(),
-            request.getImage(),
-            request.getStar(),
-            PlatformEnum.fromCode(request.getPlatform()),
-            request.getEvaluation()
-        );
+        GameCreateBo game = gameConverter.toBo(request);
         int result = gameService.createGame(game);
         if (result > 0) {
             return ApiResponse.success("游戏创建成功");
@@ -50,7 +48,8 @@ public class GameController {
 
     @PostMapping("/UpdateGame")
     @Operation(summary = "更新游戏")
-    public ApiResponse<String> updateGame(@Valid @RequestBody Games game) {
+    public ApiResponse<String> updateGame(@Valid @RequestBody GameUpdateDto dto) {
+        GameUpdateBo game = gameConverter.toBo(dto);
         int result = gameService.updateGame(game);
         if (result > 0) {
             return ApiResponse.success("游戏更新成功");
@@ -80,12 +79,13 @@ public class GameController {
         return ApiResponse.success(response);
     }
 
-    @PostMapping
+    @PostMapping("/OperateGamePlayingExperience")
     @Operation(summary = "操作游戏游玩体验")
     public ApiResponse<Integer> operateGamePlayingExperience(
-        @Valid @RequestBody PlayingExperienceOperateDto request
+        @Valid @RequestBody GameOperateDto request
     ) {
-        int result = gameService.operateGamePlayingExperience(request);
+        GameOperateBo bo = gameConverter.toBo(request);
+        int result = gameService.operateGamePlayingExperience(bo);
         if (result > 0) {
             return ApiResponse.success(result, "操作成功");
         } else {

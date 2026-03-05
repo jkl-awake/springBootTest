@@ -1,6 +1,8 @@
 package com.example.demo.service.study.impl;
 
 import com.example.demo.common.utils.ApiResponse;
+import com.example.demo.model.bo.CreateOrUpdateStudyCategoryBo;
+import com.example.demo.model.bo.StudyCategoryPageBo;
 import com.example.demo.service.study.IStudyCategory;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -31,7 +33,7 @@ public class StudyCategoryImpl implements IStudyCategory {
      * @return
      */
     @Override
-    public ApiResponse<IPage<StudyCategory>> GetStudyCategoryPage(StudyCategoryPageDto request) {
+    public ApiResponse<IPage<StudyCategory>> GetStudyCategoryPage(StudyCategoryPageBo request) {
         try {
             IPage<StudyCategory> page = studyCategoryMapper.selectPage(
                     new Page<>(request.getPageNum(), request.getPageSize()),
@@ -55,7 +57,7 @@ public class StudyCategoryImpl implements IStudyCategory {
      */
     @Override
     @Transactional
-    public ApiResponse<Integer> CreateOrUpdateStudyCategory(CreateOrUpdateStudyCategoryDto request) {
+    public ApiResponse<Integer> CreateOrUpdateStudyCategory(CreateOrUpdateStudyCategoryBo request) {
         StudyCategory studyCategory = null;
         try {
             if (request.getId() == null || request.getId() == 0) {
